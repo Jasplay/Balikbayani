@@ -56,6 +56,19 @@ io.on("connection", (socket) => {
     console.log("User disconnected:", socket.id);
   });
 });
+const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:5173";
+
+app.use(cors({
+  origin: allowedOrigin,
+  credentials: true,
+}));
+
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigin,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  },
+});
 
 const PORT = process.env.PORT || 5000;
 transporter
